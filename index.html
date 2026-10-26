@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>推肉肉小工具 / Liquify — 手臂、雙下巴、腰線，三十秒調好</title>
 <meta name="description" content="推肉肉小工具（Liquify）是一個只做一件事的 iOS 修圖 App：在三十秒內微調照片裡的手臂、雙下巴或腰線。自動偵測五官後提供小臉、瘦下巴、大眼、縮鼻、磨皮五條滑桿，也可以用筆刷手動推移。全部在裝置上運算，不需要相簿讀取權限，一次付清不是訂閱。">
 <link rel="canonical" href="https://sharonchen.design/liquify/">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEX//d3++Nz79Nv69Nv59Nv489v38tvH09VYi8kwccQvcMQub8Qtb8Qsb8Qna8MfZsLju5MsAAAC+klEQVR42s2VS0wTURSGz52iQg3MnSE2oKEPQSTYh9B0YzBIBFkYUTC4clMXsNA1cefakODaxgg7TUVZuDC+EkVJNASIQUgEKR2QpAWZubc22oD0upgH7XSoS+1q2vn6n3Pu+f8ZFITiHw7+DSAWAqg2WNus/xT8alwDlAAAHBW+vyCYhgLTAJxnO9IXpb38tPbXIADEFEcYYTkqhQJ0e8xxTWByhIZq4obCFUGov0TsovL8Hv/zpjAgi1uiHJnxawC3ej3MFiM43W8XOkHsy0YEVtJvF5MrcbUEtyqNoGYAFkv3HFxzPeI86vWDW04DmNVaXkp7P2kDsFgX71NLIGLMVAugD4g8lC9+ktz8VXfxo5Z4rAHMGuD3vymuUBNOqQDDs5ZAFlMVyJ4ajxdfN0+J5T2kAyvJLkuA6UB62PL+/JAfAGyHAdjZhV9VhT2GomVE84PwWSochJxw+TQF2CKODDYDi48bEjrAWtABc42d9m5mOArmHlJzjbXXbgBdAVDGUVqaD9D56sQuwFoE0xw7p3tYbi7oQmu+wLf7fF5w1oad+UBqvSs/egyZzKDvx/CDaV+U4TyAId6kUD+eEz0Ap/ei6Zz8vC/nHIBvUPLHRFtIjYMK2N4/MZkTTf7+ktkt4WwIp8y7CFT4DAVutTVhXhY35RATugI3Swv9IDUGDD94z8cLHVVevV5GVMD26hmy8PvEvg9aCYsW1TbL/aoC35iosopFJlVGgAPgJirclrmZ09ONLmDLYFCGAbi8J8xej2JcHGCY/EWBPSVFgexe8Xchoip4rdtkR4iWrBy3ycsgenSAp5IWPWKPIQ8ALJGODpBHVWSJ+N85VYC4+hRlaRlKevBdhQoD8milK/bjMv+RaiVo8jYIvR2wPaRkB8GhCAObb89VDCobPt0wm9KxNgyCkhwR2/HG2PHuQzfuKMmRSrcO2AJTy4wAqmvbjAPXNDnTGYhKdWfk+G4ukAdhYDF1XK7pZTwU0L4gy1czd3LaWPp/8O7+A1zBDGA+sEx8AAAAAElFTkSuQmCC">
 <style>
   :root {
     --cream: #FAF4DB;
@@ -30,8 +31,23 @@
     letter-spacing: 0.01em;
   }
   main { max-width: 42rem; margin: 0 auto; }
-  h1 { font-size: 2.1rem; line-height: 1.3; margin: 0 0 0.3em; letter-spacing: -0.015em; }
+  /* 圖示放 CSS 不放 <img>：兩個語言區塊各用一次，但 base64 只存在一份。 */
+  .hero { display: flex; align-items: center; gap: 18px; margin: 0 0 0.3em; }
+  .appicon {
+    width: 76px; height: 76px; flex-shrink: 0;
+    /* iOS 的圓角約是邊長的 22.4% */
+    border-radius: 17px;
+    background-image: url("data:image/png;base64,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");
+    background-size: cover;
+    box-shadow: 0 1px 3px rgba(30, 42, 36, 0.18);
+  }
+  .hero h1 { margin: 0; }
+  @media (max-width: 420px) {
+    .hero { gap: 14px; }
+    .appicon { width: 60px; height: 60px; border-radius: 13px; }
+  }
   .tagline { font-size: 1.15rem; color: var(--ink-soft); margin: 0 0 2.2em; }
+  h1 { font-size: 2.1rem; line-height: 1.3; margin: 0 0 0.3em; letter-spacing: -0.015em; }
   h2 {
     font-size: 1.2rem;
     margin: 2.6em 0 0.6em;
@@ -90,158 +106,16 @@
 <main>
 
   <nav class="langs" id="langs" hidden>
-    <button type="button" data-pick="zh" aria-pressed="true">中文</button>
-    <button type="button" data-pick="en" aria-pressed="false">English</button>
+    <button type="button" data-pick="zh" aria-pressed="false">中文</button>
+    <button type="button" data-pick="en" aria-pressed="true">English</button>
   </nav>
-
-  <!-- ─────────── 繁體中文 ─────────── -->
-  <section data-lang="zh" lang="zh-Hant">
-    <h1>推肉肉小工具</h1>
-    <p class="tagline">手臂、雙下巴、腰線，三十秒調好。iOS App。</p>
-
-    <div class="summary">
-      <p>
-        一個<strong>只做一件事</strong>的修圖 App：微調照片裡你不滿意的那一小塊。
-        沒有註冊、沒有廣告、沒有訂閱。所有運算在你的 iPhone 上完成。
-      </p>
-    </div>
-
-    <h2>它解決什麼問題</h2>
-    <p>
-      你剛拍了一張還不錯的照片，但手臂看起來比記憶中粗一點，或者角度讓下巴多了一層。
-      你想調的就是那一小塊，三十秒內結束。
-    </p>
-    <p>
-      現有的修圖 App 幾乎都有液化功能，但它被包在冗長的流程裡 —— 要註冊、要看廣告、
-      選單三層深、最後還要你每個月付錢。<strong>推肉肉小工具把那條路砍到只剩：
-      開啟 → 選照片 → 調整 → 存檔。</strong>
-    </p>
-
-    <h2>兩種做法</h2>
-
-    <h3>自動調整（偵測到臉之後）</h3>
-    <p>App 會自動找到五官，然後給你五條滑桿，拉到剛好為止：</p>
-    <ul>
-      <li><strong>小臉</strong> —— 收窄臉部輪廓</li>
-      <li><strong>瘦下巴</strong> —— 收下顎線條</li>
-      <li><strong>大眼</strong> —— 放大雙眼</li>
-      <li><strong>縮鼻</strong> —— 縮小鼻翼</li>
-      <li><strong>磨皮</strong> —— 讓膚質平滑，但保留輪廓</li>
-    </ul>
-    <p>不用自己判斷該推哪裡、推多少。偵測不到臉時這一頁會明白告訴你。</p>
-
-    <h3>手動筆刷（身體、衣服、背景都可以）</h3>
-    <p>手指直接塗抹，四種模式：</p>
-    <ul>
-      <li><strong>推移</strong> —— 把像素往手指移動的方向推</li>
-      <li><strong>縮小</strong> —— 朝中心收縮</li>
-      <li><strong>放大</strong> —— 往外擴張</li>
-      <li><strong>還原</strong> —— 把塗過的地方慢慢還原</li>
-    </ul>
-    <p>
-      筆刷大小與強度各有滑桿。任何時候<strong>按住「原圖」就能跟原始照片對照</strong>，
-      放開回到編輯後的版本 —— 修過頭的時候這個最有用。
-    </p>
-
-    <h2>它刻意不做的事</h2>
-    <p>知道一個工具不做什麼，跟知道它做什麼一樣重要：</p>
-    <ul>
-      <li><strong>沒有濾鏡</strong>，不調色、不加風格</li>
-      <li><strong>沒有去背、沒有貼圖、沒有文字</strong></li>
-      <li><strong>沒有美白、沒有換臉、沒有 AI 生成</strong></li>
-      <li><strong>不是全功能修圖 App。</strong>如果你要的是完整的後製流程，
-          這個不適合你 —— 去用 Lightroom 或 Photoshop</li>
-    </ul>
-
-    <h2>隱私</h2>
-    <p>
-      <strong>照片不會離開你的裝置。</strong>修圖運算使用 iPhone 本身的繪圖晶片完成，
-      過程中沒有任何影像資料被傳送出去。開飛航模式也修得動。
-    </p>
-    <p>
-      <strong>這個 App 沒有要求相簿讀取權限。</strong>它使用 iOS 系統的照片選取器，
-      只拿得到你主動選的那一張。即使它想讀你的其他照片，技術上也做不到。
-      存檔時只用「加入照片」這一項權限。
-    </p>
-    <p>
-      從 1.4 版起，App 會回報一份匿名的使用統計（哪些功能被打開過），
-      用來決定接下來該做什麼。<strong>可以在設定裡關掉，關掉之後完全不送。</strong>
-      送出的內容逐條列在<a href="https://sharonchen.design/liquify-privacy/">隱私權政策</a>裡。
-    </p>
-
-    <h2>價格</h2>
-    <p>
-      <strong>一次付清，不是訂閱，不會自動續訂。</strong>
-    </p>
-    <p>
-      免費版每天可以匯出兩張，功能完全不打折 —— 沒有浮水印，不限制筆刷或滑桿。
-      解鎖之後匯出不限次數，未來版本的更新一併包含。
-      實際價格依你所在地區顯示，以 App Store 為準。
-    </p>
-
-    <h2>匯出</h2>
-    <p>
-      以原始解析度輸出，不壓縮、不加浮水印。拍攝時間與相機資訊一併保留。
-    </p>
-
-    <h2>誰適合用</h2>
-    <ul>
-      <li>想快速微調自己照片裡某一小塊的人</li>
-      <li>不想為了一個偶爾用的功能付月費的人</li>
-      <li>不想讓自己的照片被上傳到任何伺服器的人</li>
-      <li>覺得現有修圖 App 太複雜、每次都要重新找功能在哪的人</li>
-    </ul>
-
-    <h2>誰不適合</h2>
-    <ul>
-      <li>需要完整後製流程（調色、去背、合成）的人</li>
-      <li>想要濾鏡與風格化效果的人</li>
-      <li>Android 使用者 —— 目前只有 iOS</li>
-      <li>iPad 使用者 —— 可以安裝，但目前是 iPhone 版面，沒有針對 iPad 設計</li>
-    </ul>
-
-    <h2>系統需求</h2>
-    <p>iPhone，iOS 17.0 以上。支援繁體中文、English、日本語、한국어。</p>
-
-    <h2>常見問題</h2>
-    <dl>
-      <dt>照片會被上傳嗎？</dt>
-      <dd>不會。所有運算都在你的 iPhone 上完成，開飛航模式也能用。</dd>
-
-      <dt>需要註冊帳號嗎？</dt>
-      <dd>不需要。這個 App 沒有帳號系統。</dd>
-
-      <dt>是訂閱制嗎？</dt>
-      <dd>不是。一次付清，不會自動續訂。</dd>
-
-      <dt>免費版有浮水印嗎？</dt>
-      <dd>沒有。免費版的限制只有「每天匯出兩張」，畫質與功能完全相同。</dd>
-
-      <dt>可以調身體嗎，還是只有臉？</dt>
-      <dd>都可以。自動滑桿是臉部的；手動筆刷在照片任何地方都能用，包括手臂、腰線、衣服。</dd>
-
-      <dt>修壞了怎麼辦？</dt>
-      <dd>有復原與重做，也可以按住「原圖」隨時跟原始照片對照。原始照片不會被覆蓋。</dd>
-
-      <dt>有 Android 版嗎？</dt>
-      <dd>沒有，目前只有 iOS。</dd>
-    </dl>
-
-    <h2>下載</h2>
-    <p>
-      <a class="cta" href="https://apps.apple.com/app/id6812683646">在 App Store 下載</a>
-    </p>
-
-    <h2>聯絡</h2>
-    <p>
-      有問題或建議請來信 <a href="mailto:tuiroulo.app@gmail.com">tuiroulo.app@gmail.com</a>，
-      或直接用 App 設定裡的「回報問題或給建議」—— 每一封都會看。
-    </p>
-  </section>
 
   <!-- ─────────── English ─────────── -->
   <section data-lang="en" lang="en">
-    <h1>Liquify</h1>
+    <div class="hero">
+      <div class="appicon" role="img" aria-label="Liquify app icon"></div>
+      <h1>Liquify</h1>
+    </div>
     <p class="tagline">Arms, chin, waistline — sorted in 30 seconds. An iOS app.</p>
 
     <div class="summary">
@@ -395,6 +269,154 @@
     </p>
   </section>
 
+  <!-- ─────────── 繁體中文 ─────────── -->
+  <section data-lang="zh" lang="zh-Hant">
+    <div class="hero">
+      <div class="appicon" role="img" aria-label="推肉肉小工具 app icon"></div>
+      <h1>推肉肉小工具</h1>
+    </div>
+    <p class="tagline">手臂、雙下巴、腰線，三十秒調好。iOS App。</p>
+
+    <div class="summary">
+      <p>
+        一個<strong>只做一件事</strong>的修圖 App：微調照片裡你不滿意的那一小塊。
+        沒有註冊、沒有廣告、沒有訂閱。所有運算在你的 iPhone 上完成。
+      </p>
+    </div>
+
+    <h2>它解決什麼問題</h2>
+    <p>
+      你剛拍了一張還不錯的照片，但手臂看起來比記憶中粗一點，或者角度讓下巴多了一層。
+      你想調的就是那一小塊，三十秒內結束。
+    </p>
+    <p>
+      現有的修圖 App 幾乎都有液化功能，但它被包在冗長的流程裡 —— 要註冊、要看廣告、
+      選單三層深、最後還要你每個月付錢。<strong>推肉肉小工具把那條路砍到只剩：
+      開啟 → 選照片 → 調整 → 存檔。</strong>
+    </p>
+
+    <h2>兩種做法</h2>
+
+    <h3>自動調整（偵測到臉之後）</h3>
+    <p>App 會自動找到五官，然後給你五條滑桿，拉到剛好為止：</p>
+    <ul>
+      <li><strong>小臉</strong> —— 收窄臉部輪廓</li>
+      <li><strong>瘦下巴</strong> —— 收下顎線條</li>
+      <li><strong>大眼</strong> —— 放大雙眼</li>
+      <li><strong>縮鼻</strong> —— 縮小鼻翼</li>
+      <li><strong>磨皮</strong> —— 讓膚質平滑，但保留輪廓</li>
+    </ul>
+    <p>不用自己判斷該推哪裡、推多少。偵測不到臉時這一頁會明白告訴你。</p>
+
+    <h3>手動筆刷（身體、衣服、背景都可以）</h3>
+    <p>手指直接塗抹，四種模式：</p>
+    <ul>
+      <li><strong>推移</strong> —— 把像素往手指移動的方向推</li>
+      <li><strong>縮小</strong> —— 朝中心收縮</li>
+      <li><strong>放大</strong> —— 往外擴張</li>
+      <li><strong>還原</strong> —— 把塗過的地方慢慢還原</li>
+    </ul>
+    <p>
+      筆刷大小與強度各有滑桿。任何時候<strong>按住「原圖」就能跟原始照片對照</strong>，
+      放開回到編輯後的版本 —— 修過頭的時候這個最有用。
+    </p>
+
+    <h2>它刻意不做的事</h2>
+    <p>知道一個工具不做什麼，跟知道它做什麼一樣重要：</p>
+    <ul>
+      <li><strong>沒有濾鏡</strong>，不調色、不加風格</li>
+      <li><strong>沒有去背、沒有貼圖、沒有文字</strong></li>
+      <li><strong>沒有美白、沒有換臉、沒有 AI 生成</strong></li>
+      <li><strong>不是全功能修圖 App。</strong>如果你要的是完整的後製流程，
+          這個不適合你 —— 去用 Lightroom 或 Photoshop</li>
+    </ul>
+
+    <h2>隱私</h2>
+    <p>
+      <strong>照片不會離開你的裝置。</strong>修圖運算使用 iPhone 本身的繪圖晶片完成，
+      過程中沒有任何影像資料被傳送出去。開飛航模式也修得動。
+    </p>
+    <p>
+      <strong>這個 App 沒有要求相簿讀取權限。</strong>它使用 iOS 系統的照片選取器，
+      只拿得到你主動選的那一張。即使它想讀你的其他照片，技術上也做不到。
+      存檔時只用「加入照片」這一項權限。
+    </p>
+    <p>
+      從 1.4 版起，App 會回報一份匿名的使用統計（哪些功能被打開過），
+      用來決定接下來該做什麼。<strong>可以在設定裡關掉，關掉之後完全不送。</strong>
+      送出的內容逐條列在<a href="https://sharonchen.design/liquify-privacy/">隱私權政策</a>裡。
+    </p>
+
+    <h2>價格</h2>
+    <p>
+      <strong>一次付清，不是訂閱，不會自動續訂。</strong>
+    </p>
+    <p>
+      免費版每天可以匯出兩張，功能完全不打折 —— 沒有浮水印，不限制筆刷或滑桿。
+      解鎖之後匯出不限次數，未來版本的更新一併包含。
+      實際價格依你所在地區顯示，以 App Store 為準。
+    </p>
+
+    <h2>匯出</h2>
+    <p>
+      以原始解析度輸出，不壓縮、不加浮水印。拍攝時間與相機資訊一併保留。
+    </p>
+
+    <h2>誰適合用</h2>
+    <ul>
+      <li>想快速微調自己照片裡某一小塊的人</li>
+      <li>不想為了一個偶爾用的功能付月費的人</li>
+      <li>不想讓自己的照片被上傳到任何伺服器的人</li>
+      <li>覺得現有修圖 App 太複雜、每次都要重新找功能在哪的人</li>
+    </ul>
+
+    <h2>誰不適合</h2>
+    <ul>
+      <li>需要完整後製流程（調色、去背、合成）的人</li>
+      <li>想要濾鏡與風格化效果的人</li>
+      <li>Android 使用者 —— 目前只有 iOS</li>
+      <li>iPad 使用者 —— 可以安裝，但目前是 iPhone 版面，沒有針對 iPad 設計</li>
+    </ul>
+
+    <h2>系統需求</h2>
+    <p>iPhone，iOS 17.0 以上。支援繁體中文、English、日本語、한국어。</p>
+
+    <h2>常見問題</h2>
+    <dl>
+      <dt>照片會被上傳嗎？</dt>
+      <dd>不會。所有運算都在你的 iPhone 上完成，開飛航模式也能用。</dd>
+
+      <dt>需要註冊帳號嗎？</dt>
+      <dd>不需要。這個 App 沒有帳號系統。</dd>
+
+      <dt>是訂閱制嗎？</dt>
+      <dd>不是。一次付清，不會自動續訂。</dd>
+
+      <dt>免費版有浮水印嗎？</dt>
+      <dd>沒有。免費版的限制只有「每天匯出兩張」，畫質與功能完全相同。</dd>
+
+      <dt>可以調身體嗎，還是只有臉？</dt>
+      <dd>都可以。自動滑桿是臉部的；手動筆刷在照片任何地方都能用，包括手臂、腰線、衣服。</dd>
+
+      <dt>修壞了怎麼辦？</dt>
+      <dd>有復原與重做，也可以按住「原圖」隨時跟原始照片對照。原始照片不會被覆蓋。</dd>
+
+      <dt>有 Android 版嗎？</dt>
+      <dd>沒有，目前只有 iOS。</dd>
+    </dl>
+
+    <h2>下載</h2>
+    <p>
+      <a class="cta" href="https://apps.apple.com/app/id6812683646">在 App Store 下載</a>
+    </p>
+
+    <h2>聯絡</h2>
+    <p>
+      有問題或建議請來信 <a href="mailto:tuiroulo.app@gmail.com">tuiroulo.app@gmail.com</a>，
+      或直接用 App 設定裡的「回報問題或給建議」—— 每一封都會看。
+    </p>
+  </section>
+
   <footer>
     推肉肉小工具 / Liquify　·　YiHsuan Chen　·　<a href="https://sharonchen.design/liquify-privacy/">隱私權政策 / Privacy Policy</a>
   </footer>
@@ -417,7 +439,9 @@
       b.addEventListener('click', function () { show(b.dataset.pick); });
     });
     nav.hidden = false;
-    show((navigator.language || 'en').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en');
+    // 預設英文。不看 navigator.language —— 這一頁的主要讀者是英文使用者
+    // 與語言模型的檢索，中文使用者點一下就切得過去。
+    show('en');
   })();
 </script>
 </body>
