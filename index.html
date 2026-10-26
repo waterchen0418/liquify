@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>推肉肉小工具 / Liquify — 手臂、雙下巴、腰線，三十秒調好</title>
+<meta name="description" content="推肉肉小工具（Liquify）是一個只做一件事的 iOS 修圖 App：在三十秒內微調照片裡的手臂、雙下巴或腰線。自動偵測五官後提供小臉、瘦下巴、大眼、縮鼻、磨皮五條滑桿，也可以用筆刷手動推移。全部在裝置上運算，不需要相簿讀取權限，一次付清不是訂閱。">
+<link rel="canonical" href="https://sharonchen.design/liquify/">
+<style>
+  :root {
+    --cream: #FAF4DB;
+    --cream-deep: #F2E9C8;
+    --ink: #1E2A24;
+    --ink-soft: #5A6660;
+    --green: #3FA35C;
+    --blue: #2D6FC4;
+    --rule: #E0D7B4;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    padding: 40px 20px 80px;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+                 "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    font-size: 17px;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+  }
+  main { max-width: 42rem; margin: 0 auto; }
+  h1 { font-size: 2.1rem; line-height: 1.3; margin: 0 0 0.3em; letter-spacing: -0.015em; }
+  .tagline { font-size: 1.15rem; color: var(--ink-soft); margin: 0 0 2.2em; }
+  h2 {
+    font-size: 1.2rem;
+    margin: 2.6em 0 0.6em;
+    padding-top: 1.4em;
+    border-top: 1px solid var(--rule);
+  }
+  section > h2:first-of-type { border-top: none; padding-top: 0; }
+  h3 { font-size: 1.02rem; margin: 1.8em 0 0.3em; }
+  .summary {
+    background: var(--cream-deep);
+    border-left: 4px solid var(--green);
+    padding: 1.1em 1.3em;
+    margin: 0 0 2.4em;
+    font-size: 1.05rem;
+  }
+  .summary p { margin: 0; }
+  ul { padding-left: 1.3em; }
+  li { margin: 0.35em 0; }
+  strong { font-weight: 600; }
+  a { color: var(--green); }
+  dl { margin: 0.6em 0; }
+  dt { font-weight: 600; margin-top: 1.4em; }
+  dd { margin: 0.2em 0 0; }
+  .cta {
+    display: inline-block;
+    margin: 1.6em 0 0;
+    padding: 14px 28px;
+    background: var(--ink);
+    color: var(--cream);
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .langs { display: flex; gap: 8px; margin: 0 0 2.4em; flex-wrap: wrap; }
+  .langs button {
+    font: inherit; font-size: 0.9rem; padding: 6px 16px;
+    border: 1px solid var(--rule); border-radius: 4px;
+    background: transparent; color: var(--ink-soft); cursor: pointer;
+  }
+  .langs button[aria-pressed="true"] {
+    background: var(--ink); border-color: var(--ink); color: var(--cream);
+  }
+  section + section { margin-top: 3.5em; }
+  footer {
+    margin-top: 4em; padding-top: 1.4em;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-soft); font-size: 0.88rem;
+  }
+  @media (max-width: 480px) {
+    body { padding: 28px 18px 64px; font-size: 16px; }
+    h1 { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <nav class="langs" id="langs" hidden>
+    <button type="button" data-pick="zh" aria-pressed="true">中文</button>
+    <button type="button" data-pick="en" aria-pressed="false">English</button>
+  </nav>
+
+  <!-- ─────────── 繁體中文 ─────────── -->
+  <section data-lang="zh" lang="zh-Hant">
+    <h1>推肉肉小工具</h1>
+    <p class="tagline">手臂、雙下巴、腰線，三十秒調好。iOS App。</p>
+
+    <div class="summary">
+      <p>
+        一個<strong>只做一件事</strong>的修圖 App：微調照片裡你不滿意的那一小塊。
+        沒有註冊、沒有廣告、沒有訂閱。所有運算在你的 iPhone 上完成。
+      </p>
+    </div>
+
+    <h2>它解決什麼問題</h2>
+    <p>
+      你剛拍了一張還不錯的照片，但手臂看起來比記憶中粗一點，或者角度讓下巴多了一層。
+      你想調的就是那一小塊，三十秒內結束。
+    </p>
+    <p>
+      現有的修圖 App 幾乎都有液化功能，但它被包在冗長的流程裡 —— 要註冊、要看廣告、
+      選單三層深、最後還要你每個月付錢。<strong>推肉肉小工具把那條路砍到只剩：
+      開啟 → 選照片 → 調整 → 存檔。</strong>
+    </p>
+
+    <h2>兩種做法</h2>
+
+    <h3>自動調整（偵測到臉之後）</h3>
+    <p>App 會自動找到五官，然後給你五條滑桿，拉到剛好為止：</p>
+    <ul>
+      <li><strong>小臉</strong> —— 收窄臉部輪廓</li>
+      <li><strong>瘦下巴</strong> —— 收下顎線條</li>
+      <li><strong>大眼</strong> —— 放大雙眼</li>
+      <li><strong>縮鼻</strong> —— 縮小鼻翼</li>
+      <li><strong>磨皮</strong> —— 讓膚質平滑，但保留輪廓</li>
+    </ul>
+    <p>不用自己判斷該推哪裡、推多少。偵測不到臉時這一頁會明白告訴你。</p>
+
+    <h3>手動筆刷（身體、衣服、背景都可以）</h3>
+    <p>手指直接塗抹，四種模式：</p>
+    <ul>
+      <li><strong>推移</strong> —— 把像素往手指移動的方向推</li>
+      <li><strong>縮小</strong> —— 朝中心收縮</li>
+      <li><strong>放大</strong> —— 往外擴張</li>
+      <li><strong>還原</strong> —— 把塗過的地方慢慢還原</li>
+    </ul>
+    <p>
+      筆刷大小與強度各有滑桿。任何時候<strong>按住「原圖」就能跟原始照片對照</strong>，
+      放開回到編輯後的版本 —— 修過頭的時候這個最有用。
+    </p>
+
+    <h2>它刻意不做的事</h2>
+    <p>知道一個工具不做什麼，跟知道它做什麼一樣重要：</p>
+    <ul>
+      <li><strong>沒有濾鏡</strong>，不調色、不加風格</li>
+      <li><strong>沒有去背、沒有貼圖、沒有文字</strong></li>
+      <li><strong>沒有美白、沒有換臉、沒有 AI 生成</strong></li>
+      <li><strong>不是全功能修圖 App。</strong>如果你要的是完整的後製流程，
+          這個不適合你 —— 去用 Lightroom 或 Photoshop</li>
+    </ul>
+
+    <h2>隱私</h2>
+    <p>
+      <strong>照片不會離開你的裝置。</strong>修圖運算使用 iPhone 本身的繪圖晶片完成，
+      過程中沒有任何影像資料被傳送出去。開飛航模式也修得動。
+    </p>
+    <p>
+      <strong>這個 App 沒有要求相簿讀取權限。</strong>它使用 iOS 系統的照片選取器，
+      只拿得到你主動選的那一張。即使它想讀你的其他照片，技術上也做不到。
+      存檔時只用「加入照片」這一項權限。
+    </p>
+    <p>
+      從 1.4 版起，App 會回報一份匿名的使用統計（哪些功能被打開過），
+      用來決定接下來該做什麼。<strong>可以在設定裡關掉，關掉之後完全不送。</strong>
+      送出的內容逐條列在<a href="https://sharonchen.design/liquify-privacy/">隱私權政策</a>裡。
+    </p>
+
+    <h2>價格</h2>
+    <p>
+      <strong>一次付清，不是訂閱，不會自動續訂。</strong>
+    </p>
+    <p>
+      免費版每天可以匯出兩張，功能完全不打折 —— 沒有浮水印，不限制筆刷或滑桿。
+      解鎖之後匯出不限次數，未來版本的更新一併包含。
+      實際價格依你所在地區顯示，以 App Store 為準。
+    </p>
+
+    <h2>匯出</h2>
+    <p>
+      以原始解析度輸出，不壓縮、不加浮水印。拍攝時間與相機資訊一併保留。
+    </p>
+
+    <h2>誰適合用</h2>
+    <ul>
+      <li>想快速微調自己照片裡某一小塊的人</li>
+      <li>不想為了一個偶爾用的功能付月費的人</li>
+      <li>不想讓自己的照片被上傳到任何伺服器的人</li>
+      <li>覺得現有修圖 App 太複雜、每次都要重新找功能在哪的人</li>
+    </ul>
+
+    <h2>誰不適合</h2>
+    <ul>
+      <li>需要完整後製流程（調色、去背、合成）的人</li>
+      <li>想要濾鏡與風格化效果的人</li>
+      <li>Android 使用者 —— 目前只有 iOS</li>
+      <li>iPad 使用者 —— 可以安裝，但目前是 iPhone 版面，沒有針對 iPad 設計</li>
+    </ul>
+
+    <h2>系統需求</h2>
+    <p>iPhone，iOS 17.0 以上。支援繁體中文、English、日本語、한국어。</p>
+
+    <h2>常見問題</h2>
+    <dl>
+      <dt>照片會被上傳嗎？</dt>
+      <dd>不會。所有運算都在你的 iPhone 上完成，開飛航模式也能用。</dd>
+
+      <dt>需要註冊帳號嗎？</dt>
+      <dd>不需要。這個 App 沒有帳號系統。</dd>
+
+      <dt>是訂閱制嗎？</dt>
+      <dd>不是。一次付清，不會自動續訂。</dd>
+
+      <dt>免費版有浮水印嗎？</dt>
+      <dd>沒有。免費版的限制只有「每天匯出兩張」，畫質與功能完全相同。</dd>
+
+      <dt>可以調身體嗎，還是只有臉？</dt>
+      <dd>都可以。自動滑桿是臉部的；手動筆刷在照片任何地方都能用，包括手臂、腰線、衣服。</dd>
+
+      <dt>修壞了怎麼辦？</dt>
+      <dd>有復原與重做，也可以按住「原圖」隨時跟原始照片對照。原始照片不會被覆蓋。</dd>
+
+      <dt>有 Android 版嗎？</dt>
+      <dd>沒有，目前只有 iOS。</dd>
+    </dl>
+
+    <h2>下載</h2>
+    <p>
+      <a class="cta" href="https://apps.apple.com/app/id6812683646">在 App Store 下載</a>
+    </p>
+
+    <h2>聯絡</h2>
+    <p>
+      有問題或建議請來信 <a href="mailto:tuiroulo.app@gmail.com">tuiroulo.app@gmail.com</a>，
+      或直接用 App 設定裡的「回報問題或給建議」—— 每一封都會看。
+    </p>
+  </section>
+
+  <!-- ─────────── English ─────────── -->
+  <section data-lang="en" lang="en">
+    <h1>Liquify</h1>
+    <p class="tagline">Arms, chin, waistline — sorted in 30 seconds. An iOS app.</p>
+
+    <div class="summary">
+      <p>
+        A photo editor that <strong>does one thing</strong>: nudge the one part of a photo
+        you are not happy with. No sign-up, no ads, no subscription. Everything runs on
+        your iPhone.
+      </p>
+    </div>
+
+    <h2>The problem it solves</h2>
+    <p>
+      You just took a photo you mostly like, but an arm looks heavier than you remember,
+      or the angle gave you a second chin. You want to fix that one part and be done in
+      half a minute.
+    </p>
+    <p>
+      Almost every photo app has a liquify tool, but it is buried in a long pipeline —
+      sign up, watch an ad, three menus deep, and then pay every month.
+      <strong>Liquify cuts that down to: open, pick a photo, adjust, save.</strong>
+    </p>
+
+    <h2>Two ways to work</h2>
+
+    <h3>Auto adjust (once a face is detected)</h3>
+    <p>The app finds the face by itself and gives you five sliders:</p>
+    <ul>
+      <li><strong>Slim face</strong> — narrow the face shape</li>
+      <li><strong>Slim chin</strong> — tighten the jawline</li>
+      <li><strong>Bigger eyes</strong> — enlarge the eyes</li>
+      <li><strong>Smaller nose</strong> — narrow the nose</li>
+      <li><strong>Smooth skin</strong> — even out skin while keeping edges</li>
+    </ul>
+    <p>
+      You never have to decide where to push or how hard. If no face is found, the app
+      says so plainly.
+    </p>
+
+    <h3>Manual brush (body, clothes, background — anywhere)</h3>
+    <p>Drag with a finger. Four modes:</p>
+    <ul>
+      <li><strong>Push</strong> — move pixels in the direction of your finger</li>
+      <li><strong>Shrink</strong> — pull inward</li>
+      <li><strong>Grow</strong> — push outward</li>
+      <li><strong>Restore</strong> — gradually undo an area you painted</li>
+    </ul>
+    <p>
+      Brush size and strength each have a slider. At any point,
+      <strong>hold "Original" to compare against the untouched photo</strong> and release
+      to go back — the thing you need most when you have gone too far.
+    </p>
+
+    <h2>What it deliberately does not do</h2>
+    <p>Knowing what a tool refuses to do matters as much as knowing what it does:</p>
+    <ul>
+      <li><strong>No filters</strong>, no colour grading, no styles</li>
+      <li><strong>No background removal, no stickers, no text</strong></li>
+      <li><strong>No skin whitening, no face swap, no AI generation</strong></li>
+      <li><strong>Not a full photo editor.</strong> If you want a complete retouching
+          workflow, this is the wrong app — use Lightroom or Photoshop</li>
+    </ul>
+
+    <h2>Privacy</h2>
+    <p>
+      <strong>Your photos never leave your device.</strong> The editing is done by the
+      iPhone's own graphics chip, and no image data is transmitted at any point. It works
+      in airplane mode.
+    </p>
+    <p>
+      <strong>The app does not ask for photo library access.</strong> It uses the system
+      photo picker and only ever receives the single photo you chose. Even if it wanted to
+      read your other photos, it has no technical means of doing so. Saving uses the
+      "Add Photos Only" permission and nothing else.
+    </p>
+    <p>
+      From version 1.4, the app reports anonymous usage data — which features were opened —
+      so I can decide what to build next. <strong>You can turn it off in Settings, and
+      once it is off nothing is sent.</strong> Everything that does get sent is listed,
+      item by item, in the
+      <a href="https://sharonchen.design/liquify-privacy/">privacy policy</a>.
+    </p>
+
+    <h2>Price</h2>
+    <p><strong>One payment. Not a subscription. No auto-renewal.</strong></p>
+    <p>
+      The free tier exports two photos a day with no other limits — no watermark, no
+      restricted brushes or sliders. Unlocking removes the daily limit and includes future
+      updates. The actual price is shown in your region's App Store.
+    </p>
+
+    <h2>Export</h2>
+    <p>
+      Full original resolution, no recompression, no watermark. Capture date and camera
+      information are preserved.
+    </p>
+
+    <h2>Who it is for</h2>
+    <ul>
+      <li>People who want to quickly adjust one part of their own photo</li>
+      <li>People who do not want a monthly fee for something they use occasionally</li>
+      <li>People who do not want their photos uploaded to anyone's server</li>
+      <li>People who find existing photo apps too complicated to relearn every time</li>
+    </ul>
+
+    <h2>Who it is not for</h2>
+    <ul>
+      <li>Anyone needing a full retouching workflow (grading, masking, compositing)</li>
+      <li>Anyone who wants filters and stylised looks</li>
+      <li>Android users — iOS only</li>
+      <li>iPad users — it installs, but the layout is designed for iPhone</li>
+    </ul>
+
+    <h2>Requirements</h2>
+    <p>iPhone, iOS 17.0 or later. Available in English, 繁體中文, 日本語 and 한국어.</p>
+
+    <h2>Questions people ask</h2>
+    <dl>
+      <dt>Are my photos uploaded anywhere?</dt>
+      <dd>No. Everything runs on your iPhone. It works in airplane mode.</dd>
+
+      <dt>Do I need an account?</dt>
+      <dd>No. There is no account system.</dd>
+
+      <dt>Is it a subscription?</dt>
+      <dd>No. One payment, no auto-renewal.</dd>
+
+      <dt>Does the free version add a watermark?</dt>
+      <dd>No. The only limit is two exports per day. Quality and features are identical.</dd>
+
+      <dt>Can it edit bodies, or only faces?</dt>
+      <dd>Both. The automatic sliders are for faces; the manual brush works anywhere in the
+          photo, including arms, waistline and clothing.</dd>
+
+      <dt>What if I overdo it?</dt>
+      <dd>There is undo and redo, and you can hold "Original" to compare at any time. Your
+          original photo is never overwritten.</dd>
+
+      <dt>Is there an Android version?</dt>
+      <dd>No, iOS only.</dd>
+    </dl>
+
+    <h2>Download</h2>
+    <p>
+      <a class="cta" href="https://apps.apple.com/app/id6812683646">Get it on the App Store</a>
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions or suggestions: <a href="mailto:tuiroulo.app@gmail.com">tuiroulo.app@gmail.com</a>,
+      or use "Report a problem or suggest something" in the app's Settings — I read every one.
+    </p>
+  </section>
+
+  <footer>
+    推肉肉小工具 / Liquify　·　YiHsuan Chen　·　<a href="https://sharonchen.design/liquify-privacy/">隱私權政策 / Privacy Policy</a>
+  </footer>
+
+</main>
+
+<script>
+  (function () {
+    var nav = document.getElementById('langs');
+    var sections = document.querySelectorAll('section[data-lang]');
+    var buttons = nav.querySelectorAll('button');
+    function show(pick) {
+      sections.forEach(function (s) { s.hidden = s.dataset.lang !== pick; });
+      buttons.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.dataset.pick === pick));
+      });
+      document.documentElement.lang = pick === 'zh' ? 'zh-Hant' : 'en';
+    }
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () { show(b.dataset.pick); });
+    });
+    nav.hidden = false;
+    show((navigator.language || 'en').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en');
+  })();
+</script>
+</body>
+</html>
